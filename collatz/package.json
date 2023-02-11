@@ -1,0 +1,15 @@
+{
+  "name": "collatz",
+  "version": "1.0.0",
+  "description": "the collatz sequence generator",
+  "main": "collatz-async.js",
+  "dependencies": {
+    "prompt-sync": "^4.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "andrefavotto",
+  "license": "ISC"
+}

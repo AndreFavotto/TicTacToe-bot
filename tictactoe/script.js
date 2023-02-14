@@ -33,6 +33,7 @@ class Game {
       let c = fields[i+2].innerText;
       if(a == b && b == c && a != ''){
         this.gameOver(this.player);
+        return;
       }
     }
     //Check verticals: iterate over columns
@@ -42,6 +43,7 @@ class Game {
       let c = fields[i+6].innerText;
       if(a == b && b == c && a != ''){
         this.gameOver(this.player);
+        return;
       }
     }
     //check diagonals:
@@ -55,17 +57,19 @@ class Game {
     
     if(a == b && b == c){
       console.log(`diagonal 1`)
-      this.gameOver(this.player);  
+      this.gameOver(this.player); 
+      return; 
     }
     else if (d == e && e == f){
       console.log(`diagonal 2`)
       this.gameOver(this.player);
+      return;
     }
     //out of movements
     else if (this.move==9){
       this.gameOver(-1);
+      return;
     }
-    return;
   };
 
   gameOver(winner){

@@ -19,10 +19,11 @@ header{
 }
 
 #score{
+    margin-bottom: -100px;
     padding: 10px;
     font: normal 20px Consolas;
     background-color: rgb(173, 174, 192);
-    width: 130px;
+    width: 80px;
     border-radius: 8px;
 }
 

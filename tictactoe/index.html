@@ -11,13 +11,13 @@
     <header>
         TicTacToe Game
     </header>
-    <div id="score">
-        Score <br>
-        <div id="X">X:</div>
-        <div id="Y">Y: 
-        </div>
-    </div>
     <div id="mainframe">
+        <div id="score">
+            Score <br>
+            <div id="X">X:</div>
+            <div id="Y">Y: 
+            </div>
+        </div>
         <div id="table" class="container">
             <div id="p0" onclick="play.input(0)"></div>
             <div id="p1" onclick="play.input(1)"></div>
@@ -31,7 +31,7 @@
         </div>
     </div>
     <div id="buttons">
-        <input type="button" value="Reset score" id="reset" onclick="play.reset()">
+        <input type="button" value="Reset all" id="reset" onclick="play.reset()">
         <input type="button" value="Restart match" id="restart" onclick="play.again()">
     </div>
 

@@ -14,7 +14,7 @@ header{
 }
 
 #mainframe{
-    width: 100%;
+    width: 50%;
     margin: 0 auto;
 }
 
@@ -38,6 +38,7 @@ header{
 }
 
 #reset, #restart{
+    font: normal 15px Consolas;
     margin: 40px;
     width: 180px;
     height: 50px;

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TicTacToe Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        TicTacToe Game
+    </header>
+    <div id="score">
+        Score <br>
+        <div id="X">X:</div>
+        <div id="Y">Y: 
+        </div>
+    </div>
+    <div id="mainframe">
+        <div id="table" class="container">
+            <div id="p0" onclick="play.input(0)"></div>
+            <div id="p1" onclick="play.input(1)"></div>
+            <div id="p2" onclick="play.input(2)"></div>
+            <div id="p3" onclick="play.input(3)"></div>
+            <div id="p4" onclick="play.input(4)"></div>
+            <div id="p5" onclick="play.input(5)"></div>
+            <div id="p6" onclick="play.input(6)"></div>
+            <div id="p7" onclick="play.input(7)"></div>
+            <div id="p8" onclick="play.input(8)"></div>
+        </div>
+    </div>
+    <div id="buttons">
+        <input type="button" value="Reset score" id="reset" onclick="play.reset()">
+        <input type="button" value="Restart match" id="restart" onclick="play.again()">
+    </div>
+
+    
+    <footer>
+        @andrefavotto
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>

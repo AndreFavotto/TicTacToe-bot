@@ -1,6 +1,7 @@
 class Game {
   constructor() {
-    this.player = "";
+    this.flagbot = 0;
+    this.player = 'X';
     this.move = 0;
     this.table = document.getElementById("table");
     this.fields = this.table.getElementsByTagName("div");
@@ -13,9 +14,13 @@ class Game {
   input(pos){
     let field = document.getElementById(`p${pos}`);
     if (field.innerText == ""){
-      this.player = (this.player=="X")?"O":"X";
       this.move++;
       field.innerText = this.player;
+      this.player = (this.player=="X")?"O":"X";
+      this.flagbot = this.flagbot==1?0:1;
+      if (this.flagbot == 1){
+        setTimeout(() => bot.decideMove(), 500);
+      }
     }
     // not possible to win within less than 5 movements
     if (this.move>=5) {
@@ -102,4 +107,83 @@ class Game {
   }
 };
 
-var play = new Game();
+var game = new Game();
+
+class Bot{
+  constructor(){
+    this.winnables = {
+      h1: [0, 1, 2],
+      h2: [3, 4, 5],
+      h3: [6, 7, 8],
+      v1: [0, 3, 6],
+      v2: [1, 4, 7],
+      v3: [2, 5, 8],
+      d1: [0, 4, 8],
+      d2: [2, 4, 6],
+  };
+    this.scores = {
+      h1: 0,
+      h2: 0,
+      h3: 0,
+      v1: 0,
+      v2: 0,
+      v3: 0,
+      d1: 0,
+      d2: 0,
+    };
+  }
+  
+  updateTable(){
+    this.botPlayer = game.player;
+    this.emptyFields = this.searchTable("");
+    this.myFields = this.searchTable(`${this.botPlayer}`);
+    this.scores = {
+      h1: 0,
+      h2: 0,
+      h3: 0,
+      v1: 0,
+      v2: 0,
+      v3: 0,
+      d1: 0,
+      d2: 0,
+    };
+  }
+
+  decideMove(){
+    this.getScore();
+    let maxValue = Math.max(...Object.values(this.scores));
+    let key = Object.keys(this.scores).find(key => this.scores[key] === maxValue);
+    console.log(maxValue, key);
+    for(let index of this.winnables[key]){
+      if (this.emptyFields.includes(index)){
+        game.input(index);
+        return;
+      }
+    }
+  }  
+  //searches for ${query} on table and returns with indexes
+  searchTable(query){
+    let results = [];
+    for(let index in game.fields){
+      if(game.fields[index].innerText == `${query}`){results.push(Number(index));}
+    }
+    return results;
+  }
+
+  getScore(){
+    this.updateTable()
+    for(let winnable of Object.values(this.winnables)){
+      let key = Object.keys(this.winnables).find(key => this.winnables[key] === winnable);
+        for (let index of winnable){
+          //if mine +1, if enemy -1, if blank none
+          if (this.myFields.includes(index))
+            this.scores[key]++;
+          else if (!(this.emptyFields.includes(index)))
+            this.scores[key]--;
+        }
+      this.scores[key] = Math.abs(this.scores[key]);
+    }
+  }
+};
+
+var bot = new Bot();

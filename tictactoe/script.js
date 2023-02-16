@@ -1,14 +1,14 @@
 class Game {
   constructor() {
     this.flagbot = 0;
-    this.player = 'X';
+    this.player = "X";
     this.move = 0;
     this.table = document.getElementById("table");
     this.fields = this.table.getElementsByTagName("div");
     this.scoreX = document.getElementById("X");
-    this.scoreY = document.getElementById("Y");
+    this.scoreO = document.getElementById("O");
     this.scoreCountX = 0;
-    this.scoreCountY = 0;
+    this.scoreCountO = 0;
   };
 
   input(pos){
@@ -16,8 +16,8 @@ class Game {
     if (field.innerText == ""){
       this.move++;
       field.innerText = this.player;
-      this.player = (this.player=="X")?"O":"X";
-      this.flagbot = this.flagbot==1?0:1;
+      this.player = (this.player == "X")?"O":"X";
+      this.flagbot = this.flagbot == 1?0:1;
       if (this.flagbot == 1){
         setTimeout(() => bot.decideMove(), 500);
       }
@@ -61,12 +61,10 @@ class Game {
     let f = fields[6].innerText;
     
     if(a == b && b == c){
-      console.log(`diagonal 1`)
       this.gameOver(this.player); 
       return; 
     }
     else if (d == e && e == f){
-      console.log(`diagonal 2`)
       this.gameOver(this.player);
       return;
     }
@@ -84,8 +82,8 @@ class Game {
         this.scoreX.innerText =`X: ${this.scoreCountX}`;
       }
       else{
-        this.scoreCountY++;
-        this.scoreY.innerText =`Y: ${this.scoreCountY}`
+        this.scoreCountO++;
+        this.scoreO.innerText =`O: ${this.scoreCountO}`
       }
       window.alert(`Congrats! ${winner} won!`);
     }
@@ -100,9 +98,9 @@ class Game {
 
   reset(){
     this.scoreX.innerText = 'X: '
-    this.scoreY.innerText = 'Y: '
+    this.scoreO.innerText = 'O: '
     this.scoreCountX = 0;
-    this.scoreCountY = 0;
+    this.scoreCountO = 0;
     this.again();
   }
 };

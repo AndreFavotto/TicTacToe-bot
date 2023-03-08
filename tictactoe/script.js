@@ -1,7 +1,6 @@
 class Game {
   constructor() {
-    this.flagbot = 0;
-    this.player = "X";
+    this.player = "X"; //user is always X and starts playing
     this.move = 0;
     this.table = document.getElementById("table");
     this.fields = this.table.getElementsByTagName("div");
@@ -14,18 +13,16 @@ class Game {
   input(pos){
     let field = document.getElementById(`p${pos}`);
     if (field.innerText == ""){
-      this.move++;
       field.innerText = this.player;
-      this.player = (this.player == "X")?"O":"X";
-      this.flagbot = this.flagbot == 1?0:1;
-      if (this.flagbot == 1){
-        setTimeout(() => bot.decideMove(), 500);
-      }
+      this.move++;
+      //check winner and toggle player asynchronously
+      setTimeout(() =>{
+          // not possible to win within less than 5 movements
+          if (this.move>=5){this.checkWinner()}
+          this.player = (this.player == "X")?"O":"X";
+          if (this.player=="O"){bot.decideMove()}; 
+          }, 400); //400ms delay for UX
     }
-    // not possible to win within less than 5 movements
-    if (this.move>=5) {
-      //make checkwinner async
-      setTimeout(() => this.checkWinner(), 50);}
     return;
   };
 
@@ -61,11 +58,11 @@ class Game {
     let f = fields[6].innerText;
     
     if(a == b && b == c){
-      this.gameOver(this.player); 
+      this.gameOver(); 
       return; 
     }
     else if (d == e && e == f){
-      this.gameOver(this.player);
+      this.gameOver();
       return;
     }
     //out of movements
@@ -75,7 +72,7 @@ class Game {
     }
   };
 
-  gameOver(winner){
+  gameOver(winner=this.player){
     if(winner!=-1){
       if (winner=='X'){
         this.scoreCountX++;
@@ -94,6 +91,7 @@ class Game {
   again(){
     for (let field of this.fields){field.innerText=""}
     this.move = 0;
+    this.player = "X";
   };
 
   reset(){
@@ -109,6 +107,7 @@ var game = new Game();
 
 class Bot{
   constructor(){
+    this.botPlayer = "O";
     this.winnables = {
       h1: [0, 1, 2],
       h2: [3, 4, 5],
@@ -132,7 +131,6 @@ class Bot{
   }
   
   updateTable(){
-    this.botPlayer = game.player;
     this.emptyFields = this.searchTable("");
     this.myFields = this.searchTable(`${this.botPlayer}`);
     this.scores = {
@@ -151,7 +149,6 @@ class Bot{
     this.getScore();
     let maxValue = Math.max(...Object.values(this.scores));
     let key = Object.keys(this.scores).find(key => this.scores[key] === maxValue);
-    console.log(maxValue, key);
     for(let index of this.winnables[key]){
       if (this.emptyFields.includes(index)){
         game.input(index);

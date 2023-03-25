@@ -30,38 +30,38 @@ class Game {
     let fields = this.fields;
     //Check horizontals: iterate lines jumping every 3 indexes
     for(let i=0; i<=6; i+=3){
-      let a = fields[i].innerText;
-      let b = fields[i+1].innerText;
-      let c = fields[i+2].innerText;
-      if(a == b && b == c && a != ''){
+      let hn1 = fields[i].innerText;
+      let hn2 = fields[i+1].innerText;
+      let hn3 = fields[i+2].innerText;
+      if(hn1 == hn2 && hn2 == hn3 && hn1 != ''){
         this.gameOver(this.player);
         return;
       }
     }
     //Check verticals: iterate over columns
     for(let i=0; i<=2; i++){
-      let a = fields[i].innerText;
-      let b = fields[i+3].innerText;
-      let c = fields[i+6].innerText;
-      if(a == b && b == c && a != ''){
+      let vn1 = fields[i].innerText;
+      let vn2 = fields[i+3].innerText;
+      let vn3 = fields[i+6].innerText;
+      if(vn1 == vn2 && vn2 == vn3 && vn1 != ''){
         this.gameOver(this.player);
         return;
       }
     }
     //check diagonals:
-    let a = fields[0].innerText;
-    let b = fields[4].innerText;
-    let c = fields[8].innerText;
+    let d11 = fields[0].innerText;
+    let d12 = fields[4].innerText;
+    let d13 = fields[8].innerText;
 
-    let d = fields[2].innerText;
-    let e = fields[4].innerText;
-    let f = fields[6].innerText;
+    let d21 = fields[2].innerText;
+    let d22 = fields[4].innerText;
+    let d23 = fields[6].innerText;
     
-    if(a == b && b == c){
+    if(d11 == d12 && d12 == d13){
       this.gameOver(); 
       return; 
     }
-    else if (d == e && e == f){
+    else if (d21 == d22 && d22 == d23){
       this.gameOver();
       return;
     }
@@ -146,13 +146,23 @@ class Bot{
   }
 
   decideMove(){
+    this.updateTable();
+    if(game.move<=2){ //play randomly in first movements to generate pseudo-aleatory outcomes
+      let randomEmpty = this.emptyFields[Math.floor(Math.random() * this.emptyFields.length)]
+      game.input(randomEmpty)
+      return;
+    }
     this.getScore();
     let maxValue = Math.max(...Object.values(this.scores));
-    let key = Object.keys(this.scores).find(key => this.scores[key] === maxValue);
-    for(let index of this.winnables[key]){
-      if (this.emptyFields.includes(index)){
-        game.input(index);
-        return;
+    let maxKeys = Object.keys(this.scores).filter(key => this.scores[key] === maxValue); //array with one or more keys to the maximum(s) score(s)
+    //iterate through all keys with maximum score, in case of a tie
+    for (let keyIndex = 0; keyIndex <= maxKeys.length; keyIndex++){
+      console.log(maxKeys[keyIndex])
+      for(let index of this.winnables[maxKeys[keyIndex]]){
+        if (this.emptyFields.includes(index)){ //plays on first empty field, respecting given conditions
+          game.input(index);
+          return;
+        }
       }
     }
   }  
@@ -166,7 +176,6 @@ class Bot{
   }
 
   getScore(){
-    this.updateTable()
     for(let winnable of Object.values(this.winnables)){
       let key = Object.keys(this.winnables).find(key => this.winnables[key] === winnable);
         for (let index of winnable){

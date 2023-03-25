@@ -14,25 +14,24 @@
     <div id="mainframe">
         <div id="score">
             Score <br>
-            <div id="X">X:</div>
-            <div id="Y">Y: 
-            </div>
+            <div id="X">X: 0</div>
+            <div id="O">O: 0</div>
         </div>
         <div id="table" class="container">
-            <div id="p0" onclick="play.input(0)"></div>
-            <div id="p1" onclick="play.input(1)"></div>
-            <div id="p2" onclick="play.input(2)"></div>
-            <div id="p3" onclick="play.input(3)"></div>
-            <div id="p4" onclick="play.input(4)"></div>
-            <div id="p5" onclick="play.input(5)"></div>
-            <div id="p6" onclick="play.input(6)"></div>
-            <div id="p7" onclick="play.input(7)"></div>
-            <div id="p8" onclick="play.input(8)"></div>
+            <div id="p0" onclick="game.input(0)"></div>
+            <div id="p1" onclick="game.input(1)"></div>
+            <div id="p2" onclick="game.input(2)"></div>
+            <div id="p3" onclick="game.input(3)"></div>
+            <div id="p4" onclick="game.input(4)"></div>
+            <div id="p5" onclick="game.input(5)"></div>
+            <div id="p6" onclick="game.input(6)"></div>
+            <div id="p7" onclick="game.input(7)"></div>
+            <div id="p8" onclick="game.input(8)"></div>
         </div>
     </div>
     <div id="buttons">
-        <input type="button" value="Reset all" id="reset" onclick="play.reset()">
-        <input type="button" value="Restart match" id="restart" onclick="play.again()">
+        <input type="button" value="Reset all" id="reset" onclick="game.reset()">
+        <input type="button" value="Restart match" id="restart" onclick="game.again()">
     </div>
 
     

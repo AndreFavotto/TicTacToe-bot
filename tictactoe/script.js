@@ -17,11 +17,12 @@ class Game {
       this.move++;
       //check winner and toggle player asynchronously
       setTimeout(() =>{
-          // not possible to win within less than 5 movements
-          if (this.move>=5){this.checkWinner()}
-          this.player = (this.player == "X")?"O":"X";
-          if (this.player=="O"){bot.decideMove()}; 
-          }, 400); //400ms delay for UX
+        // not possible to win within less than 5 movements
+        if (this.move>=5 && this.checkWinner()) 
+          return;
+        this.player = (this.player == "X")?"O":"X";
+        if (this.player=="O"){bot.decideMove()}; 
+        }, 400); //400ms delay for UX
     }
     return;
   };
@@ -35,7 +36,8 @@ class Game {
       let hn3 = fields[i+2].innerText;
       if(hn1 == hn2 && hn2 == hn3 && hn1 != ''){
         this.gameOver(this.player);
-        return;
+        setTimeout(() => this.again(), 500);
+        return true;
       }
     }
     //Check verticals: iterate over columns
@@ -45,7 +47,8 @@ class Game {
       let vn3 = fields[i+6].innerText;
       if(vn1 == vn2 && vn2 == vn3 && vn1 != ''){
         this.gameOver(this.player);
-        return;
+        setTimeout(() => this.again(), 500);
+        return true;
       }
     }
     //check diagonals:
@@ -59,17 +62,21 @@ class Game {
     
     if(d11 == d12 && d12 == d13){
       this.gameOver(); 
-      return; 
+      setTimeout(() => this.again(), 500);
+      return true;
     }
     else if (d21 == d22 && d22 == d23){
       this.gameOver();
-      return;
+      setTimeout(() => this.again(), 500);
+      return true;
     }
     //out of movements
     else if (this.move==9){
       this.gameOver(-1);
-      return;
+      setTimeout(() => this.again(), 500);
+      return true;
     }
+    return false;
   };
 
   gameOver(winner=this.player){
@@ -85,13 +92,11 @@ class Game {
       window.alert(`Congrats! ${winner} won!`);
     }
     else {window.alert("Nobody won :(");}
-    setTimeout(() => this.again(), 500);
   };
 
   again(){
     for (let field of this.fields){field.innerText=""}
     this.move = 0;
-    this.player = "X";
   };
 
   reset(){
@@ -157,7 +162,6 @@ class Bot{
     let maxKeys = Object.keys(this.scores).filter(key => this.scores[key] === maxValue); //array with one or more keys to the maximum(s) score(s)
     //iterate through all keys with maximum score, in case of a tie
     for (let keyIndex = 0; keyIndex <= maxKeys.length; keyIndex++){
-      console.log(maxKeys[keyIndex])
       for(let index of this.winnables[maxKeys[keyIndex]]){
         if (this.emptyFields.includes(index)){ //plays on first empty field, respecting given conditions
           game.input(index);

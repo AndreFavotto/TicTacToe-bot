@@ -1,6 +1,6 @@
 # Play against bot - TicTacToe game for web
 
-The game can be accessed downloading this repository and then opening [index.html](.tictactoe/../tictactoe/index.html) on browser.
+The game can be accessed by downloading this repository and opening [index.html](.tictactoe/../tictactoe/index.html) on browser.
 
 User starts playing, then bot comes to action!
 
